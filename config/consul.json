@@ -1,0 +1,6 @@
+{
+  "data_dir": "/tmp/consul",
+  "ports" : {
+    "dns" : 53
+  }
+}
