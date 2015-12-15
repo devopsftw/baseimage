@@ -2,7 +2,7 @@ FROM phusion/baseimage
 MAINTAINER Alex Salt <alex.salt@e96.ru>
 
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
-    unzip htop apt-transport-https unzip nano \
+    htop apt-transport-https unzip nano \
     collectd
 
 # do locales
