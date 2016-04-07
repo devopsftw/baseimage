@@ -4,7 +4,7 @@ MAINTAINER Alex Salt <alex.salt@e96.ru>
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
     ca-certificates bind9-host \
     htop apt-transport-https unzip nano \
-    collectd
+    collectd dnsutils
 
 # do locales
 RUN locale-gen ru_RU.UTF-8
@@ -14,7 +14,7 @@ COPY config/locale /etc/default/locale
 RUN curl -L https://github.com/kreuzwerker/envplate/releases/download/v0.0.8/ep-linux -o /usr/local/bin/ep && chmod +x /usr/local/bin/ep
 
 # consul
-RUN curl https://releases.hashicorp.com/consul/0.6.3/consul_0.6.3_linux_amd64.zip > /tmp/consul.zip
+RUN curl https://releases.hashicorp.com/consul/0.6.4/consul_0.6.4_linux_amd64.zip > /tmp/consul.zip
 RUN unzip /tmp/consul.zip
 RUN mv consul /usr/local/bin/
 RUN mkdir -p /etc/consul/conf.d
