@@ -23,24 +23,24 @@ echo $DC > /etc/container_environment/CONSUL_DC
 echo $DOMAIN > /etc/container_environment/CONSUL_DOMAIN
 
 NETS=$(ip a | grep "scope global")
-if [ -z $ADVERTISE && $(echo $NETS | wc -l) -gt 1 ]; then
-
+NETS_COUNT=$(echo $NETS | wc -l)
+if [ -z $ADVERTISE ] && (( $NERS_COUNT > 1 )); then
     if [ ! -z $ADVERTISE_INTERFACE ]; then
         ADDR=$(ip addr show dev ethwe | grep "inet " | grep -E -o '[0-9a-f]+[\.:][0-9a-f\.:]+[^/]')
         if [ $ADDR ]; then
             ADVERISE=$ADDR
         fi
     fi
-    if [ -z ADVERTISE ]; then
+    if [ -z $ADVERTISE ]; then
         echo "No ADVERTISE or ADVERTISE_INTERFACE adress set, and more than 2 global scope networks available, trying to detect."
         ADVERTISE=127.0.0.1
 
         # works nice with such nets as weave and other dns search providers
         DIG=$(dig $HOSTNAME +short)
-    
+
         if [ $DIG ]; then
             ADVERTISE=$DIG
-	    echo "Detected adverising ip with dig: $DIG"
+        echo "Detected adverising ip with dig: $DIG"
         else
             ADVERTISE=$(echo $NETS | head -n 1 | grep -E -o '[0-9a-f]+[\.:][0-9a-f\.:]+[^/]')
             echo "Dig failed, using first network ip: $ADVERTISE"

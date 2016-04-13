@@ -39,5 +39,7 @@ ADD init.d/ /etc/my_init.d/
 ADD services/consul.sh /etc/service/consul/run
 ADD services/collectd.sh /etc/service/collectd/run
 
+EXPOSE 8300 8301 8301/udp 8302 8302/udp 8400 8500 8600 8600/udp
+
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
