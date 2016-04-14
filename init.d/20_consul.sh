@@ -24,11 +24,11 @@ echo $DOMAIN > /etc/container_environment/CONSUL_DOMAIN
 
 NETS=$(ip a | grep "scope global")
 NETS_COUNT=$(echo $NETS | wc -l)
-if [ -z $ADVERTISE ] && (( $NERS_COUNT > 1 )); then
+if [ -z $ADVERTISE ] && (( $NETS_COUNT > 1 )); then
     if [ ! -z $ADVERTISE_INTERFACE ]; then
         ADDR=$(ip addr show dev ethwe | grep "inet " | grep -E -o '[0-9a-f]+[\.:][0-9a-f\.:]+[^/]')
         if [ $ADDR ]; then
-            ADVERISE=$ADDR
+            ADVERTISE=$ADDR
         fi
     fi
     if [ -z $ADVERTISE ]; then
