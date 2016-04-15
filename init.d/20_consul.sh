@@ -23,8 +23,8 @@ echo $DC > /etc/container_environment/CONSUL_DC
 echo $DOMAIN > /etc/container_environment/CONSUL_DOMAIN
 
 NETS=$(ip a | grep "scope global")
-NETS_COUNT=$(echo $NETS | wc -l)
-if [ -z $ADVERTISE ] && (( $NETS_COUNT > 1 )); then
+NETS_COUNT=$(ip a | grep "scope global" | wc -l)
+if [ -z $ADVERTISE ] && [ $NETS_COUNT -gt 1 ]; then
     if [ ! -z $ADVERTISE_INTERFACE ]; then
         ADDR=$(ip addr show dev ethwe | grep "inet " | grep -E -o '[0-9a-f]+[\.:][0-9a-f\.:]+[^/]')
         if [ $ADDR ]; then
