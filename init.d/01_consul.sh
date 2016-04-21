@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if [ "$USE_CONSUL" != 1 ]; then
+    touch /etc/service/consul/down
+    exit 0
+fi
+
 if [ -z $CONSUL_HOST ]; then
     echo "CONSUL_HOST not set, discovering from route"
     CONSUL_HOST=$(ip route show 0.0.0.0/0 | grep -Eo 'via \S+' | awk '{ print $2 }')
