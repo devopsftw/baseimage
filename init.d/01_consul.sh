@@ -5,6 +5,9 @@ if [ "$USE_CONSUL" != 1 ]; then
     exit 0
 fi
 
+ep /etc/consul/conf.d/*
+ep /etc/consul/consul.json
+
 if [ -z $CONSUL_HOST ]; then
     echo "CONSUL_HOST not set, discovering from route"
     CONSUL_HOST=$(ip route show 0.0.0.0/0 | grep -Eo 'via \S+' | awk '{ print $2 }')

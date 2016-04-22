@@ -2,6 +2,7 @@ FROM phusion/baseimage
 MAINTAINER Alex Salt <alex.salt@e96.ru>
 
 ENV USE_CONSUL 1
+ENV USE_COLLECTD 0
 
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
     ca-certificates bind9-host \
