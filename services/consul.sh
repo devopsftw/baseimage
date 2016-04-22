@@ -1,7 +1,8 @@
 #!/bin/sh
 
 _term() {
-	kill -INT $pid
+    kill -INT $pid
+    wait $pid
 }
 # trap term for gracefully stopping consul
 trap _term TERM
