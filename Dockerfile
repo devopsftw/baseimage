@@ -11,18 +11,17 @@ RUN locale-gen ru_RU.UTF-8
 COPY config/locale /etc/default/locale
 
 # envplate
-RUN curl -L https://github.com/kreuzwerker/envplate/releases/download/v0.0.8/ep-linux -o /usr/local/bin/ep && chmod +x /usr/local/bin/ep
+RUN curl -Ls https://github.com/kreuzwerker/envplate/releases/download/v0.0.8/ep-linux -o /usr/local/bin/ep && \
+    chmod +x /usr/local/bin/ep
 
 # consul
-RUN curl https://releases.hashicorp.com/consul/0.6.4/consul_0.6.4_linux_amd64.zip > /tmp/consul.zip
-RUN unzip /tmp/consul.zip
-RUN mv consul /usr/local/bin/
-RUN mkdir -p /etc/consul/conf.d
-ADD config/consul.json /etc/consul/consul.json
+RUN curl -Ls https://releases.hashicorp.com/consul/0.6.4/consul_0.6.4_linux_amd64.zip -o /tmp/consul.zip && \
+    unzip /tmp/consul.zip -d /usr/local/bin/ && rm /tmp/consul.zip \
+    mkdir -p /etc/consul/conf.d && config/consul.json /etc/consul/consul.json
 
 # consul template
-RUN curl -L -s https://github.com/hashicorp/consul-template/releases/download/v0.10.0/consul-template_0.10.0_linux_amd64.tar.gz | \
-    tar -C /usr/local/bin --strip-components 1 -zxf -
+RUN curl -Ls https://releases.hashicorp.com/consul-template/0.14.0/consul-template_0.14.0_linux_amd64.zip -o /tmp/tpl.zip && \
+    unzip /tmp/tpl.zip -d /usr/local/bin/ && rm /tmp/tpl.zip
 
 # Setup Consul Template Files
 RUN mkdir /etc/consul-templates
