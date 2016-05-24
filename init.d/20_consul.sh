@@ -17,10 +17,10 @@ if [ "$PAIR" = "" ]; then
     exit 1
 fi
 
-DC=$(echo $PAIR | cut -f1 -d " ")
-DOMAIN=$(echo $PAIR | cut -f2 -d " ")
-echo $DC > /etc/container_environment/CONSUL_DC
-echo $DOMAIN > /etc/container_environment/CONSUL_DOMAIN
+CONSUL_DC=$(echo $PAIR | cut -f1 -d " ")
+CONSUL_DOMAIN=$(echo $PAIR | cut -f2 -d " ")
+echo $CONSUL_DC > /etc/container_environment/CONSUL_DC
+echo $CONSUL_DOMAIN > /etc/container_environment/CONSUL_DOMAIN
 
 NETS=$(ip a | grep "scope global")
 NETS_COUNT=$(ip a | grep "scope global" | wc -l)
