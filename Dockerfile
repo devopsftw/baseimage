@@ -16,8 +16,10 @@ RUN curl -Ls https://github.com/kreuzwerker/envplate/releases/download/v0.0.8/ep
 
 # consul
 RUN curl -Ls https://releases.hashicorp.com/consul/0.6.4/consul_0.6.4_linux_amd64.zip -o /tmp/consul.zip && \
-    unzip /tmp/consul.zip -d /usr/local/bin/ && rm /tmp/consul.zip \
-    mkdir -p /etc/consul/conf.d && config/consul.json /etc/consul/consul.json
+    unzip /tmp/consul.zip -d /usr/local/bin/ && rm /tmp/consul.zip && \
+    mkdir -p /etc/consul/conf.d
+
+ADD config/consul.json /etc/consul/consul.json
 
 # consul template
 RUN curl -Ls https://releases.hashicorp.com/consul-template/0.14.0/consul-template_0.14.0_linux_amd64.zip -o /tmp/tpl.zip && \
