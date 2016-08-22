@@ -4,7 +4,7 @@ MAINTAINER Alex Salt <alex.salt@e96.ru>
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
     ca-certificates bind9-host \
     htop apt-transport-https unzip nano \
-    collectd dnsutils
+    collectd dnsutils iproute
 
 # do locales
 RUN locale-gen ru_RU.UTF-8
