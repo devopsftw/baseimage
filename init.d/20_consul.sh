@@ -35,16 +35,10 @@ if [ -z $ADVERTISE ] && [ $NETS_COUNT -gt 1 ]; then
         echo "No ADVERTISE or ADVERTISE_INTERFACE adress set, and more than 2 global scope networks available, trying to detect."
         ADVERTISE=127.0.0.1
 
-        # works nice with such nets as weave and other dns search providers
-        DIG=$(dig $HOSTNAME +short)
+        CONSUL_IP=$(dig a +short $CONSUL_HOST)
+        ADVERTISE=$(ip -o route get $CONSUL_IP | awk '{print $5}')
 
-        if [ $DIG ]; then
-            ADVERTISE=$DIG
-        echo "Detected adverising ip with dig: $DIG"
-        else
-            ADVERTISE=$(echo $NETS | head -n 1 | grep -E -o '[0-9a-f]+[\.:][0-9a-f\.:]+[^/]')
-            echo "Dig failed, using first network ip: $ADVERTISE"
-        fi
+        echo "Using default route to consul interface: $ADVERTISE"
     fi
 
     echo "{\"advertise_addr\": \"$ADVERTISE\"}" > /etc/consul/conf.d/advertise.json
