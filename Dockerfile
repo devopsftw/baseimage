@@ -1,4 +1,4 @@
-FROM phusion/baseimage
+FROM phusion/baseimage:0.9.15
 MAINTAINER Alex Salt <alex.salt@e96.ru>
 
 ENV USE_CONSUL 1
