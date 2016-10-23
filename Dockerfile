@@ -23,13 +23,6 @@ RUN mv consul /usr/local/bin/
 RUN mkdir -p /etc/consul/conf.d
 ADD config/consul.json /etc/consul/consul.json
 
-# consul template
-RUN curl -L -s https://github.com/hashicorp/consul-template/releases/download/v0.10.0/consul-template_0.10.0_linux_amd64.tar.gz | \
-    tar -C /usr/local/bin --strip-components 1 -zxf -
-
-# Setup Consul Template Files
-RUN mkdir /etc/consul-templates
-
 # collectd
 RUN mkdir /etc/collectd/conf.d
 RUN touch /etc/collectd/types.db
