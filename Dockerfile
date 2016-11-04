@@ -9,7 +9,7 @@ ENV CONSUL_VERSION 0.7.0
 RUN rm -rf /etc/my_init.d/00_regen_ssh_host_keys.sh /etc/service/sshd
 
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
-    ca-certificates bind9-host \
+    ca-certificates bind9-host iproute2 \
     htop apt-transport-https unzip nano \
     tzdata \
     collectd libpython2.7
