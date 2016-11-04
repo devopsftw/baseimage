@@ -6,7 +6,7 @@ ENV USE_COLLECTD 0
 ENV CONSUL_VERSION 0.7.0
 
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
-    ca-certificates bind9-host \
+    ca-certificates bind9-host iproute2 \
     htop apt-transport-https unzip nano \
     collectd libpython2.7
 
