@@ -5,6 +5,10 @@ ENV USE_CONSUL 1
 ENV USE_COLLECTD 0
 ENV CONSUL_VERSION 0.7.0
 
+# remove upstream stuff
+RUN rm -rf /etc/my_init.d/00_regen_ssh_host_keys.sh \
+    /etc/service/cron /etc/service/sshd
+
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
     ca-certificates bind9-host \
     htop apt-transport-https unzip nano \
