@@ -11,6 +11,7 @@ RUN rm -rf /etc/my_init.d/00_regen_ssh_host_keys.sh /etc/service/sshd
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
     ca-certificates bind9-host \
     htop apt-transport-https unzip nano \
+    tzdata \
     collectd libpython2.7
 
 # do locales
