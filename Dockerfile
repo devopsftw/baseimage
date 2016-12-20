@@ -4,6 +4,7 @@ MAINTAINER Alex Salt <alex.salt@e96.ru>
 ENV USE_CONSUL 1
 ENV USE_COLLECTD 0
 ENV CONSUL_VERSION 0.7.0
+ENV DEBIAN_FRONTEND noninteractive
 
 # remove ssh
 RUN rm -rf /etc/my_init.d/00_regen_ssh_host_keys.sh /etc/service/sshd
