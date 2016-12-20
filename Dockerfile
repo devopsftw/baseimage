@@ -12,7 +12,11 @@ RUN apt-get update -qq && apt-get install -y --no-install-recommends \
     ca-certificates bind9-host iproute2 \
     htop apt-transport-https unzip nano \
     tzdata \
-    collectd libpython2.7
+    collectd libpython2.7 \
+
+    && apt-get clean autoclean \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # do locales
 RUN locale-gen ru_RU.UTF-8
@@ -39,6 +43,3 @@ ADD init.d/ /etc/my_init.d/
 # install services
 ADD services/consul.sh /etc/service/consul/run
 ADD services/collectd.sh /etc/service/collectd/run
-
-# Clean up APT when done.
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
