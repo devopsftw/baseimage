@@ -1,46 +1,33 @@
 FROM phusion/baseimage:0.9.22
 MAINTAINER Alex Salt <alex.salt@e96.ru>
 
+ENV USE_TELEGRAF 0
 ENV USE_CONSUL 1
-ENV USE_COLLECTD 0
 ENV CONSUL_VERSION 0.9.3
 ENV DEBIAN_FRONTEND noninteractive
 
-# remove ssh
-RUN rm -rf /etc/my_init.d/00_regen_ssh_host_keys.sh /etc/service/sshd
 
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
     ca-certificates bind9-host iproute2 \
     htop apt-transport-https unzip nano \
     tzdata \
-    collectd libpython2.7 \
-
+    && curl -sSL https://dl.influxdata.com/telegraf/releases/telegraf_1.5.1-1_amd64.deb -o /tmp/telegraf.deb \
+    && dpkg -i /tmp/telegraf.deb \
+    && curl -sSL https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_amd64.zip > /tmp/consul.zip \
+    && curl -sSL https://github.com/kreuzwerker/envplate/releases/download/v0.0.8/ep-linux -o /usr/local/bin/ep && chmod +x /usr/local/bin/ep \
+    && unzip -d /usr/local/bin /tmp/consul.zip && rm /tmp/consul.zip \
+    && mkdir -p /etc/consul/conf.d \
     && apt-get clean autoclean \
     && apt-get autoremove -y \
+    && rm -rf /etc/my_init.d/00_regen_ssh_host_keys.sh /etc/service/sshd \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# do locales
-RUN locale-gen ru_RU.UTF-8
-COPY config/locale /etc/default/locale
-
-# envplate
-RUN curl -L https://github.com/kreuzwerker/envplate/releases/download/v0.0.8/ep-linux -o /usr/local/bin/ep && chmod +x /usr/local/bin/ep
-
-# consul
-RUN curl https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_amd64.zip > /tmp/consul.zip && \
-    unzip -d /usr/local/bin /tmp/consul.zip && \
-    rm /tmp/consul.zip && \
-    mkdir -p /etc/consul/conf.d
-ADD config/consul.json /etc/consul/consul.json
-
-# collectd
-RUN mkdir /etc/collectd/conf.d
-RUN touch /etc/collectd/types.db
-ADD config/collectd/collectd.conf /etc/collectd/
+# consul config
+COPY config/consul.json /etc/consul/consul.json
 
 # install init scripts
-ADD init.d/ /etc/my_init.d/
+COPY init.d/ /etc/my_init.d/
 
 # install services
-ADD services/consul.sh /etc/service/consul/run
-ADD services/collectd.sh /etc/service/collectd/run
+COPY services/consul.sh /etc/service/consul/run
+COPY services/telegraf.sh /etc/service/telegraf/run
