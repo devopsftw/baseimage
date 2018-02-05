@@ -2,6 +2,7 @@
 
 exec /usr/local/bin/consul agent \
     -retry-join $CONSUL_HOST \
+    -bind $CONSUL_BIND \
     -datacenter $CONSUL_DC \
     -domain $CONSUL_DOMAIN \
     -config-file /etc/consul/consul.json \
