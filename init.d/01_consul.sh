@@ -25,10 +25,12 @@ if [ "$PAIR" = "" ]; then
     exit 1
 fi
 
-if [ -z $CONSUL_BIND ]; then
-    echo '0.0.0.0' > /etc/container_environment/CONSUL_BIND
+if [ -z "$CONSUL_BIND_EXPR" ]; then
+    echo "Consul bind address expression not set, use default"
+    CONSUL_BIND_EXPR='"0.0.0.0"'
+    echo $CONSUL_BIND_EXPR > /etc/container_environment/CONSUL_BIND_EXPR
 fi
-echo "Bind consul to $CONSUL_BIND"
+echo "Consul bind address expression set to $CONSUL_BIND_EXPR"
 
 DC=$(echo $PAIR | cut -f1 -d " ")
 DOMAIN=$(echo $PAIR | cut -f2 -d " ")
